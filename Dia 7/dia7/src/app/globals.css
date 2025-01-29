@@ -1,0 +1,39 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Estilos para asegurarse de que el footer se quede al final */
+html, body {
+  height: 100%; /* Asegura que html y body ocupen toda la altura */
+  margin: 0;
+}
+
+#root {
+  height: 100%; /* Asegura que el contenedor principal ocupe toda la altura */
+}
+
+.app-container {
+  @apply flex flex-col min-h-screen; /* Usamos flexbox con Tailwind para organizar los elementos */
+}
+
+footer {
+  @apply mt-auto; /* Empuja el footer hacia abajo */
+}
