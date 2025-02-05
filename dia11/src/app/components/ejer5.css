@@ -1,0 +1,13 @@
+div{
+    width: 100px;
+    height: 100px;
+    background-color: gray;
+    border: 1px solid white;
+    transition: all .5s;
+}
+
+div.active{
+    background-color: green;
+    width: 300px;
+    height: 300px;
+}

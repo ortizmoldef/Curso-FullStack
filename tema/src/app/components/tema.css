@@ -1,0 +1,110 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  html, body, #root {
+    height: 100%;
+    width: 100%;
+  }
+  
+  body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f4f4f4;
+    height: 100%;
+    margin: 0;
+  }
+  
+  .App {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.5s ease, color 0.5s ease;
+  }
+  
+  .App.light {
+    background-color: white;
+    color: black; 
+  }
+  
+  .App.dark {
+    background-color: #121212;
+    color: white; 
+  }
+  
+  .App.animated .content {
+    transition: transform 1s ease, background-color 1s ease;
+    transform: scale(1.5);
+  }
+  
+  .content {
+    text-align: center;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    display: inline-block;
+  }
+  
+  h1 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
+  
+  p {
+    font-size: 1rem;
+    margin-bottom: 20px;
+  }
+  
+  button {
+    padding: 10px 20px;
+    margin: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    background-color: #6200ea;
+    color: white;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #3700b3;
+  }
+  
+
+  .App.dark .content {
+    background-color: #333;
+  }
+  
+
+  .App.dark.content h1{
+    color: white; 
+  }
+  
+  .App.dark.content p{
+    color:white
+  }
+
+  .App.dark.content button{
+    color: white
+  }
+
+
+  @media (max-width: 600px) {
+    .content {
+      width: 90%;
+    }
+  
+    button {
+      width: 100%;
+      margin: 5px 0;
+    }
+  }
+  

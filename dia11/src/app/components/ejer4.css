@@ -1,0 +1,9 @@
+li{
+    display: block;
+    cursor: pointer;
+    background-color: gray;
+}
+
+li.active{
+    background-color: green;
+}
