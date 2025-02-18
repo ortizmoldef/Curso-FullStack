@@ -1,0 +1,13 @@
+.theme{
+    border: 1px solid black;
+    width: 100px;
+    height: 100px;
+}
+
+.light{
+    background-color: aqua;
+}
+
+.dark{
+    background-color: blue;
+}
