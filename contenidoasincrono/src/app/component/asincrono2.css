@@ -1,0 +1,93 @@
+.container {
+    max-width: 700px;
+    margin: 30px auto;
+    padding: 20px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    font-family: 'Arial', sans-serif;
+}
+
+
+.title {
+    color: #2c3e50;
+    font-size: 26px;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+
+.userList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+
+.userItem {
+    background: #ecf0f1;
+    margin: 10px 0;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+    gap: 15px;
+    transition: all 0.3s ease-in-out;
+    text-align: center; 
+}
+
+
+.userItem:hover {
+    transform: scale(1.03);
+    background: #dfe6e9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+
+.userImage {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 3px solid #3498db;
+    transition: transform 0.3s ease-in-out;
+}
+
+
+.userItem:hover .userImage {
+    transform: rotate(5deg) scale(1.1);
+}
+
+
+.userInfo {
+    flex: 1;
+    display: flex; 
+    flex-direction: column;
+    justify-content: center;
+    text-align: center; 
+}
+
+
+.userName {
+    font-size: 18px;
+    font-weight: bold;
+    color: #34495e;
+    margin: 5px 0;
+}
+
+
+.userEmail {
+    font-size: 14px;
+    color: #7f8c8d;
+    margin-top: 5px;
+}
+
+
+.userCountry {
+    font-size: 14px;
+    color: #2c3e50;
+    font-weight: bold;
+    margin-top: 5px;
+}
