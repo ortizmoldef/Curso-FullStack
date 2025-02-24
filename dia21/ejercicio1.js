@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-const writeStream = fs.createWriteStream('./archivo2.txt');
+const writeStream = fs.createWriteStream('./archivo.txt');
 
 const mensaje = "¡Este es un de textosdsdsds!";
 
