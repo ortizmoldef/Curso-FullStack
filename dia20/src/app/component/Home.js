@@ -14,7 +14,7 @@ const Home = () => {
           {tasks.map((task) => {
             console.log(task.id); 
             return (
-              <li key={task.id + 1}>
+              <li key={task.id}>
                 <Link to={`/task/${task.id}`}>
                   {task.title}
                 </Link>
