@@ -1,4 +1,3 @@
-//Ejercicio de registrar cuanto tiempo tarda en procesarse una solicitud
 const express = require('express');
 const app = express();
 

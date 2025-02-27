@@ -1,4 +1,3 @@
-// Ejercicio de una IP especifica
 const express = require('express');
 const app = express();
 

@@ -1,4 +1,3 @@
-//Ejercicio de Imprimir por consola la fecha y la URL de cada solicitud Recibida
 const express = require('express');
 const app = express();
 

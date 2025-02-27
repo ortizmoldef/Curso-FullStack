@@ -1,4 +1,3 @@
-//Ejercicio de Contador de Solicitudes que se han recibido en el servidor
 const express = require('express');
 const app = express();
 

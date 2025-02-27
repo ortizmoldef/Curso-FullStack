@@ -1,4 +1,3 @@
-//Ejercicio de Verificador de Token
 const express = require('express');
 const app = express();
 
