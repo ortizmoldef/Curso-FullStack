@@ -7,7 +7,7 @@ function App() {
     const [email, setEmail] = useState("");
 
     useEffect(() => {
-        axios.get("http://localhost:5000/users").then((response) => {
+        axios.get("http://localhost:5000/user").then((response) => {
             setUsers(response.data);
         });
     }, []);
@@ -15,11 +15,29 @@ function App() {
     const handleSubmit = (e) => {
         e.preventDefault();
         axios
-            .post("http://localhost:5000/users", { name, email })
+            .post("http://localhost:5000/user", { name, email })
             .then((response) => {
                 setUsers([...users, response.data]);
                 setName("");
                 setEmail("");
+            })
+            .catch((error) => console.error(error));
+    };
+
+    const handleUpdate = (id, updatedName, updatedEmail) => {
+        axios
+            .put(`http://localhost:5000/user/${id}`, { name: updatedName, email: updatedEmail })
+            .then(() => {
+                setUsers(users.map(user => user.id === id ? { ...user, name: updatedName, email: updatedEmail } : user));
+            })
+            .catch((error) => console.error(error));
+    };
+
+    const handleDelete = (id) => {
+        axios
+            .delete(`http://localhost:5000/user/${id}`)
+            .then(() => {
+                setUsers(users.filter(user => user.id !== id));
             })
             .catch((error) => console.error(error));
     };
@@ -48,6 +66,8 @@ function App() {
                 {users.map((user) => (
                     <li key={user.id}>
                         {user.name} - {user.email}
+                        <button onClick={() => handleUpdate(user.id, prompt("Nuevo nombre", user.name), prompt("Nuevo correo", user.email))}>Actualizar</button>
+                        <button onClick={() => handleDelete(user.id)}>Eliminar</button>
                     </li>
                 ))}
             </ul>

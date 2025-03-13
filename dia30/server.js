@@ -22,6 +22,7 @@ db.connect((err) => {
     }
 });
 
+// seleccionar al usuario
 app.get("/user", (req, res) => {
     db.query("SELECT * FROM user", (err, results) => {
         if (err) return res.status(500).json(err);
@@ -29,6 +30,8 @@ app.get("/user", (req, res) => {
     });
 });
 
+
+// insertar los datos del usuario
 app.post("/user", (req, res) => {
     const { name, email } = req.body;
     db.query("INSERT INTO user (name, email) VALUES (?, ?)", [name, email], (err, result) => {
@@ -36,6 +39,26 @@ app.post("/user", (req, res) => {
         res.json({ id: result.insertId, name, email });
     });
 });
+
+// Modificar el usuario
+app.put("/user/:id", (req, res) => {
+    const { id } = req.params;
+    const { name, email } = req.body;
+    db.query("UPDATE user SET name = ?, email = ? WHERE id = ?", [name, email, id], (err, result) => {
+        if (err) return res.status(500).json(err);
+        res.json({ message: "Usuario actualizado correctamente" });
+    });
+});
+
+// Eliminar el usuario
+app.delete("/user/:id", (req, res) => {
+    const { id } = req.params;
+    db.query("DELETE FROM user WHERE id = ?", [id], (err, result) => {
+        if (err) return res.status(500).json(err);
+        res.json({ message: "Usuario eliminado correctamente" });
+    });
+});
+
 
 const PORT = 5000;
 app.listen(PORT, () => {
