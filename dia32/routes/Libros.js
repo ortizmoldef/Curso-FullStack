@@ -7,22 +7,25 @@ module.exports = (db) => {
     router.get('/autores', librosController.getAutores);
 
     // Para que puedas ver todos los libros
-    router.get('/librosver',librosController.getLibrosVer)
+    router.get('/librosver', librosController.getLibrosVer);
     
-    // da los libros con la ID del autor
-    router.get('/libros/:autorId', librosController.getAutoresId)
-    
+    // Da los libros con la ID del autor
+    router.get('/libros/:autorId', librosController.getLibrosPorAutorYVentas); // Cambié esta línea para que coincida con la lógica de autor
+
     // Para que me de las ventas de libro por ID
-    router.get('/ventas/:libroId', librosController.getVentasLibroID)
+    router.get('/ventas/libro/:libroId', librosController.getVentasLibroID); // Cambié esta ruta para diferenciarla de la venta por autor
+
+    // Para obtener los libros por autor y las librerías donde se vendieron
+    router.get('/ventas/autor/:autorId', librosController.getLibrosPorAutorYVentas); // Cambié esta ruta también para diferenciarla de la de libros
 
     // Para crear un libro
-    router.post('/libros', librosController.postLibros)
+    router.post('/libros', librosController.postLibros);
 
     // Modificar los libros
     router.put('/libros/:id', librosController.putUpdateLibro);
 
     // Eliminar los Libros
-    router.delete('/libros/:id', librosController.DeleteLibro)
-    
+    router.delete('/libros/:id', librosController.DeleteLibro);
+
     return router; 
 };

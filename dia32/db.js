@@ -1,4 +1,4 @@
-require("dotenv").config();
+require("dotenv").config({ path: `.env.${process.env.NODE_ENV || "development"}` });
 const mysql = require("mysql2");
 
 const db = mysql.createConnection({
@@ -16,4 +16,4 @@ db.connect((err) => {
     }
 });
 
-module.exports = db; 
+module.exports = db;

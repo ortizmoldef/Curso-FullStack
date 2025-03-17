@@ -8,21 +8,19 @@ const CrearLibro = () => {
   const [precio, setPrecio] = useState('');
   const [editorialId, setEditorialId] = useState('');
   const [nombreAutor, setNombreAutor] = useState('');
-  
-  // useNavigate para redirigir después de crear el libro
+
+
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Enviar los datos del formulario al servidor
     try {
-      const response = await axios.post('http://localhost:5000/api/libros', {
-        titulo,
-        anio_publicacion: anioPublicacion,
-        precio,
-        editorial_id: editorialId,
-        nombre_autor: nombreAutor,
+         await axios.post('http://localhost:5000/api/libros', {
+            titulo,
+            anio_publicacion: anioPublicacion,
+            precio,
+            editorial_id: editorialId,
+            nombre_autor: nombreAutor,
       });
 
       navigate('/');
