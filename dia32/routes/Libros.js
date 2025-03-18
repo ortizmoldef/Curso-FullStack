@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const librosController = require('../controllers/controllers');
+const UserController = require('../controllers/userController');
 
 module.exports = (db) => {
     // Para ver los autores que hay
@@ -27,5 +28,8 @@ module.exports = (db) => {
     // Eliminar los Libros
     router.delete('/libros/:id', librosController.DeleteLibro);
 
+    router.post('/register',UserController.userRegister)
+
+    router.post('/login', UserController.userLogin)
     return router; 
 };
