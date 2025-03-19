@@ -23,42 +23,72 @@ db.connect((err) => {
 });
 
 // seleccionar al usuario
-app.get("/user", (req, res) => {
-    db.query("SELECT * FROM user", (err, results) => {
-        if (err) return res.status(500).json(err);
-        res.json(results);
-    });
+app.get("/user", async (req, res) => {
+    try {
+        db.query("SELECT * FROM user", (err, results) => {
+            if (err) {
+                console.error("Error al obtener usuarios:", err);
+                return res.status(500).json(err);
+            }
+            res.json(results);
+        });
+    } catch (error) {
+        console.error("Error inesperado:", error);
+        res.status(500).json({ message: "Error inesperado al obtener los usuarios" });
+    }
 });
 
-
 // insertar los datos del usuario
-app.post("/user", (req, res) => {
+app.post("/user", async (req, res) => {
     const { name, email } = req.body;
-    db.query("INSERT INTO user (name, email) VALUES (?, ?)", [name, email], (err, result) => {
-        if (err) return res.status(500).json(err);
-        res.json({ id: result.insertId, name, email });
-    });
+    try {
+        db.query("INSERT INTO user (name, email) VALUES (?, ?)", [name, email], (err, result) => {
+            if (err) {
+                console.error("Error al insertar usuario:", err);
+                return res.status(500).json(err);
+            }
+            res.json({ id: result.insertId, name, email });
+        });
+    } catch (error) {
+        console.error("Error inesperado:", error);
+        res.status(500).json({ message: "Error inesperado al insertar el usuario" });
+    }
 });
 
 // Modificar el usuario
-app.put("/user/:id", (req, res) => {
+app.put("/user/:id", async (req, res) => {
     const { id } = req.params;
     const { name, email } = req.body;
-    db.query("UPDATE user SET name = ?, email = ? WHERE id = ?", [name, email, id], (err, result) => {
-        if (err) return res.status(500).json(err);
-        res.json({ message: "Usuario actualizado correctamente" });
-    });
+    try {
+        db.query("UPDATE user SET name = ?, email = ? WHERE id = ?", [name, email, id], (err, result) => {
+            if (err) {
+                console.error("Error al actualizar usuario:", err);
+                return res.status(500).json(err);
+            }
+            res.json({ message: "Usuario actualizado correctamente" });
+        });
+    } catch (error) {
+        console.error("Error inesperado:", error);
+        res.status(500).json({ message: "Error inesperado al actualizar el usuario" });
+    }
 });
 
 // Eliminar el usuario
-app.delete("/user/:id", (req, res) => {
+app.delete("/user/:id", async (req, res) => {
     const { id } = req.params;
-    db.query("DELETE FROM user WHERE id = ?", [id], (err, result) => {
-        if (err) return res.status(500).json(err);
-        res.json({ message: "Usuario eliminado correctamente" });
-    });
+    try {
+        db.query("DELETE FROM user WHERE id = ?", [id], (err, result) => {
+            if (err) {
+                console.error("Error al eliminar usuario:", err);
+                return res.status(500).json(err);
+            }
+            res.json({ message: "Usuario eliminado correctamente" });
+        });
+    } catch (error) {
+        console.error("Error inesperado:", error);
+        res.status(500).json({ message: "Error inesperado al eliminar el usuario" });
+    }
 });
-
 
 const PORT = 5000;
 app.listen(PORT, () => {
