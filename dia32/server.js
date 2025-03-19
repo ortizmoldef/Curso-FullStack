@@ -1,11 +1,9 @@
 require('dotenv').config({ path: `.env.${process.env.NODE_ENV || "development"}` });
-
 const express = require('express');
 const cors = require('cors');  
 const app = express();
 const db = require('./db'); 
 const rutasLibros = require('./routes/Libros'); 
-const { default: mongoose } = require('mongoose');
 
 app.use(cors({
     origin: 'http://localhost:3000', 
@@ -17,12 +15,6 @@ app.use(express.json());
 
 app.use('/api', rutasLibros(db));
 
-const userSchema = new mongoose.Schema({
-    username: { type: String, require: true, unique: true},
-    password: {type: String, require: true},
-})
-
-const User = mongoose.model('user',userSchema)
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

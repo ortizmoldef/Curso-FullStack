@@ -28,8 +28,10 @@ module.exports = (db) => {
     // Eliminar los Libros
     router.delete('/libros/:id', librosController.DeleteLibro);
 
+    // Usuario de registro
     router.post('/register',UserController.userRegister)
 
+    // Usuario de login
     router.post('/login', UserController.userLogin)
     return router; 
 };

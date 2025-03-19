@@ -6,35 +6,40 @@ function handleError(res, error, message = 'Error en el servidor') {
     res.status(500).send(message);
 }
 
-exports.getAutores = (req, res) => {  // Se cambia el parámetro
+exports.getAutores = (req, res) => {  
   const query = 'SELECT * FROM Autores';
   db.query(query, (err, results) => {
       if (err) return handleError(res, err, 'Error al obtener autores');
-      res.json(results);  // Responde con los resultados
+      res.json(results); 
   });
 };
 
 // Obtener libros con información detallada
-exports.getLibrosVer = (req, res) => { // Se cambia el parámetro
-const query = ` 
+exports.getLibrosVer = (req, res) => { 
+  const query = `
     SELECT 
         l.id AS libro_id, 
         l.titulo, 
         l.anio_publicacion, 
         l.precio, 
         e.nombre AS editorial, 
-        a.nombre AS autor
+        a.nombre AS autor,
+        v.cantidad AS cantidad_vendida,
+        v.precio_venta AS precio_venta,
+        v.fecha_venta AS fecha_venta
     FROM Libros l
     LEFT JOIN Editoriales e ON l.editorial_id = e.id
     JOIN Libro_Autor la ON l.id = la.libro_id
     JOIN Autores a ON la.autor_id = a.id
-`;
+    LEFT JOIN Ventas v ON l.id = v.libro_id
+  `;
 
-db.query(query, (err, results) => {
+  db.query(query, (err, results) => {
     if (err) return handleError(res, err, 'Error al obtener libros');
-    res.json(results);  // Responde con los resultados
-});
+    res.json(results);  
+  });
 };
+
 
 // Crear libro con autor y editorial
 exports.postLibros = (req, res) => {
@@ -114,7 +119,6 @@ exports.DeleteLibro = (req, res) => {
 exports.getVentasLibroID = (req, res) => {
   const libroId = req.params.libroId;
 
-  // Verifica que el libroId sea válido
   if (!libroId) {
     return res.status(400).send('ID de libro no válido');
   }
@@ -126,7 +130,6 @@ exports.getVentasLibroID = (req, res) => {
       return res.status(500).send('Error en el servidor');
     }
 
-    // Devuelve las ventas
     res.json(results);
   });
 };
@@ -172,10 +175,8 @@ exports.putUpdateLibro = (req, res) => {
   const { id } = req.params;
   const { titulo, anio_publicacion, precio, editorial_id, autor_nombre } = req.body;
 
-  // Verifica si el editorial_id es vacío y lo maneja adecuadamente
   const validEditorialId = editorial_id ? editorial_id : null;
 
-  // Inicia la actualización del libro
   const query = `
       UPDATE Libros
       SET titulo = ?, anio_publicacion = ?, precio = ?, editorial_id = ?
@@ -188,23 +189,18 @@ exports.putUpdateLibro = (req, res) => {
           return res.status(404).send('Libro no encontrado');
       }
 
-      // Si hay un cambio en el nombre del autor, actualizar también
       if (autor_nombre) {
-          // Buscar el autor actual en la relación
           const queryAutor = 'SELECT a.id FROM Autores a JOIN Libro_Autor la ON a.id = la.autor_id WHERE la.libro_id = ?';
           db.query(queryAutor, [id], (err, autorResults) => {
               if (err) return handleError(res, err, 'Error al obtener autor actual');
 
               if (autorResults.length > 0) {
                   const autorId = autorResults[0].id;
-
-                  // Si el nombre del autor ha cambiado, actualizamos su nombre
                   if (autorId) {
                       const queryUpdateAutor = 'UPDATE Autores SET nombre = ? WHERE id = ?';
                       db.query(queryUpdateAutor, [autor_nombre, autorId], (err) => {
                           if (err) return handleError(res, err, 'Error al actualizar el autor');
                           
-                          // Si el nombre ha cambiado, actualizamos la relación
                           const queryActualizarRelacion = 'UPDATE Libro_Autor SET autor_id = ? WHERE libro_id = ?';
                           db.query(queryActualizarRelacion, [autorId, id], (err) => {
                               if (err) return handleError(res, err, 'Error al actualizar la relación libro-autor');
