@@ -11,7 +11,7 @@ const Login = () => {
         e.preventDefault();
         try {
             const response = await axios.post('http://localhost:5000/api/login', { username, password });
-            console.log(response.data); // Muestra el token o la respuesta exitosa
+            console.log(response.data); 
             navigate('/')
         } catch (error) {
             console.error('Error al iniciar sesión:', error.response || error.message); 
