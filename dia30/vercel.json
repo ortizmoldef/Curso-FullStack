@@ -2,13 +2,13 @@
     "version": 2,
     "builds": [
       {
-        "src": "server.js",  // Usa 'server.js' como el archivo de entrada
+        "src": "server.js",  
         "use": "@vercel/node"
       }
     ],
     "routes": [
       {
-        "src": "/(.*)",  // Redirige todas las rutas a 'server.js'
+        "src": "/(.*)", 
         "dest": "server.js"
       }
     ]
