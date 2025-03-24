@@ -7,6 +7,7 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
+// Conexión a la base de datos MySQL
 const db = mysql.createConnection({
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
@@ -22,7 +23,9 @@ db.connect((err) => {
     }
 });
 
-// seleccionar al usuario
+// Rutas de la API
+
+// Seleccionar usuario
 app.get("/user", async (req, res) => {
     try {
         db.query("SELECT * FROM user", (err, results) => {
@@ -38,7 +41,7 @@ app.get("/user", async (req, res) => {
     }
 });
 
-// insertar los datos del usuario
+// Insertar usuario
 app.post("/user", async (req, res) => {
     const { name, email } = req.body;
     try {
@@ -55,7 +58,7 @@ app.post("/user", async (req, res) => {
     }
 });
 
-// Modificar el usuario
+// Modificar usuario
 app.put("/user/:id", async (req, res) => {
     const { id } = req.params;
     const { name, email } = req.body;
@@ -73,7 +76,7 @@ app.put("/user/:id", async (req, res) => {
     }
 });
 
-// Eliminar el usuario
+// Eliminar usuario
 app.delete("/user/:id", async (req, res) => {
     const { id } = req.params;
     try {
@@ -90,7 +93,8 @@ app.delete("/user/:id", async (req, res) => {
     }
 });
 
-const PORT = 5000;
+// Configuración del puerto (Vercel manejará el puerto automáticamente)
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-    console.log(`Servidor corriendo en http://localhost:${PORT}`);
+    console.log(`Servidor corriendo en el puerto ${PORT}`);
 });
