@@ -31,11 +31,11 @@ exports.userRegister = async (req, res) => {
   }
 };
 
-
 exports.userLogin = async (req, res) => {
     const { username, password } = req.body;
     try {
         const [rows] = await db.promise().query('SELECT * FROM users WHERE username = ?', [username]);
+
         if (rows.length === 0) {
             return res.status(400).json({ message: 'Usuario no encontrado' });
         }
@@ -47,10 +47,21 @@ exports.userLogin = async (req, res) => {
         }
 
         const token = jwt.sign({ userID: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-        res.json({ token });
+
+        // Devolver tanto el token como el user
+        return res.json({
+            token,
+            user: {
+                id: user.id,
+                username: user.username,
+                email: user.email // Agrega los datos que necesitas
+            }
+        });
+
     } catch (error) {
         console.error('Error en el inicio de sesión:', error);
         res.status(500).json({ message: 'Error en el inicio de sesión', error: error.message });
     }
 };
+
 

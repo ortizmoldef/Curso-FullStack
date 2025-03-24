@@ -16,7 +16,16 @@ const Libros = () => {
     ventas: [] // Para manejar las ventas al crear o editar un libro
   });
 
+  const [role, setRole] = useState('user');  // Estado para guardar el rol del usuario (por defecto es 'user')
+
   useEffect(() => {
+    // Obtener el rol del usuario desde el localStorage
+    const storedRole = localStorage.getItem('role');
+    if (storedRole) {
+      setRole(storedRole);  // Guardamos el rol del usuario en el estado
+    }
+
+    // Obtener la lista de libros
     axios.get('http://localhost:5000/api/librosver')
       .then(response => {
         setLibros(response.data);
@@ -119,8 +128,6 @@ const Libros = () => {
       console.error('Error al modificar el libro:', error);
     }
   };
-    
-  
 
   const crearLibro = async () => {
     try {
@@ -145,7 +152,10 @@ const Libros = () => {
     <div>
       <h1>Libros</h1>
       <div>
-        <Link to="/crear-libro" className="boton-crear">Crear Nuevo Libro</Link>
+        {/* Mostrar el botón de "Crear Nuevo Libro" solo si el usuario es admin */}
+        {role === 'admin' && (
+          <Link to="/crear-libro" className="boton-crear">Crear Nuevo Libro</Link>
+        )}
       </div>
       <div>
         <h2>Lista de Libros</h2>
@@ -160,8 +170,13 @@ const Libros = () => {
                 <p><strong>Autor:</strong> {libro.autor}</p>
               </div>
               <div className="botones">
-                <button onClick={() => iniciarEdicion(libro)}>Modificar</button>
-                <button onClick={() => eliminarLibro(libro.libro_id)}>Eliminar</button>
+                {/* Mostrar botones de Modificar, Eliminar y Ver Ventas solo si el rol es admin */}
+                {role === 'admin' && (
+                  <>
+                    <button onClick={() => iniciarEdicion(libro)}>Modificar</button>
+                    <button onClick={() => eliminarLibro(libro.libro_id)}>Eliminar</button>
+                  </>
+                )}
                 <button onClick={() => obtenerVentas(libro.libro_id)}>Ver Ventas</button>
               </div>
               {ventas[libro.libro_id] && ventas[libro.libro_id].length > 0 ? (

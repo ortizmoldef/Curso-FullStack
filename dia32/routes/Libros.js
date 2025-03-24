@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const librosController = require('../controllers/controllers');
 const UserController = require('../controllers/userController');
+const verificarToken = require('../Middleware/Middleware');
 
 module.exports = (db) => {
     // Para ver los autores que hay
@@ -20,13 +21,13 @@ module.exports = (db) => {
     router.get('/ventas/autor/:autorId', librosController.getLibrosPorAutorYVentas); // Cambié esta ruta también para diferenciarla de la de libros
 
     // Para crear un libro
-    router.post('/libros', librosController.postLibros);
+    router.post('/libros', verificarToken,librosController.postLibros);
 
     // Modificar los libros
-    router.put('/libros/:id', librosController.putUpdateLibro);
+    router.put('/libros/:id',verificarToken,librosController.putUpdateLibro);
 
     // Eliminar los Libros
-    router.delete('/libros/:id', librosController.DeleteLibro);
+    router.delete('/libros/:id', verificarToken, librosController.DeleteLibro);
 
     // Usuario de registro
     router.post('/register',UserController.userRegister)
