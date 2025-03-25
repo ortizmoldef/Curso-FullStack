@@ -15,8 +15,6 @@ app.use(express.json());
 
 app.use('/api', rutasLibros(db));
 
-
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-    console.log(`Servidor corriendo en puerto ${PORT}`);
-});
+// ❌ No usar app.listen() en Vercel
+// ✅ Exportar el handler de Express para Vercel
+module.exports = app;
