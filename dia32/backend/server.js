@@ -16,4 +16,9 @@ app.use(express.json());
 app.use('/api', rutasLibros(db));
 
 
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+    console.log(`Servidor corriendo en puerto ${PORT}`);
+});
+
 
