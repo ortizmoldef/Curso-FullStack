@@ -6,10 +6,11 @@ const cors = require("cors");
 const app = express();
 app.use(express.json());
 
-// Configuración de CORS para permitir solicitudes desde tu frontend en producción
+// Configuración de CORS para permitir solicitudes solo desde tu frontend
 const corsOptions = {
-    origin: process.env.REACT_APP_API_URL,// Cambia esto por tu URL de frontend en producción
-    methods: ["GET", "POST", "PUT", "DELETE"]  
+    origin: process.env.REACT_APP_API_URL, // Permite solo las solicitudes desde la URL de tu frontend
+    methods: ["GET", "POST", "PUT", "DELETE"],  
+    allowedHeaders: ["Content-Type", "Authorization"], // Permite los headers necesarios
 };
 app.use(cors(corsOptions));
 
