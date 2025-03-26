@@ -10,18 +10,20 @@ const cors = require("cors");
 // CORS options para permitir múltiples orígenes
 const corsOptions = {
     origin: function (origin, callback) {
-        // Asegúrate de incluir las URL de tus frontends (desarrollo y producción)
         const allowedOrigins = [
-            'http://localhost:3000', // Desarrollo local
-            'https://frontend30-6gpr6qbo2-ortizmoldefs-projects.vercel.app', // Producción frontend
+            'http://localhost:3000',  // Desarrollo local
+            'https://frontend30-6gpr6qbo2-ortizmoldefs-projects.vercel.app'  // Producción en Vercel
         ];
+        
+        // Si la solicitud proviene de un origen permitido o si no hay origen (por ejemplo, solicitudes sin CORS como cURL)
         if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
-            callback(null, true); // Permite la solicitud
+            callback(null, true);
         } else {
             callback(new Error('Not allowed by CORS'));
         }
     },
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    credentials: true,             // Permitir credenciales
+    optionsSuccessStatus: 200      // Asegurarse de que la solicitud OPTIONS se maneje correctamente
 };
 
 // Usar CORS con la configuración anterior
