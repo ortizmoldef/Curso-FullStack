@@ -10,9 +10,15 @@ function App() {
     const [email, setEmail] = useState("");
 
     useEffect(() => {
-        axios.get(`${apiUrl}/user`).then((response) => {
-            setUsers(response.data);
-        });
+        axios.get(`${apiUrl}/user`)
+            .then((response) => {
+                if (Array.isArray(response.data)) {
+                    setUsers(response.data); // Actualiza solo si es un array
+                } else {
+                    console.error("La respuesta no es un array", response.data);
+                }
+            })
+            .catch((error) => console.error("Error al obtener los usuarios:", error));
     }, []);
 
     const handleSubmit = (e) => {
@@ -28,6 +34,11 @@ function App() {
     };
 
     const handleUpdate = (id, updatedName, updatedEmail) => {
+        if (!Array.isArray(users)) {
+            console.error("users no es un array:", users);
+            return;
+        }
+    
         axios
             .put(`${apiUrl}/user/${id}`, { name: updatedName, email: updatedEmail })
             .then(() => {
