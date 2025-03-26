@@ -114,7 +114,7 @@ app.delete("/user/:id", async (req, res) => {
 
 app.get("/", (req, res) => {
     res.send("Servidor de API de Backend en funcionamiento");
-});
+}); 
 
 // Configuración del puerto (Vercel manejará el puerto automáticamente)
 const PORT = process.env.PORT || 5000;
