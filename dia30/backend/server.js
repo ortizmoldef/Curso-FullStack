@@ -6,12 +6,22 @@ const cors = require("cors");
 const app = express();
 app.use(express.json());
 
-// Configuración de CORS para permitir solicitudes solo desde tu frontend
 const corsOptions = {
-    origin: process.env.REACT_APP_API_URL, // Permite solo las solicitudes desde la URL de tu frontend
-    methods: ["GET", "POST", "PUT", "DELETE"],  
-    allowedHeaders: ["Content-Type", "Authorization"], // Permite los headers necesarios
-};
+    origin: (origin, callback) => {
+      const allowedOrigins = [
+        'http://localhost:3000', // Desarrollo local
+        'https://frontend30-6gpr6qbo2-ortizmoldefs-projects.vercel.app', // Producción
+      ];
+      if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+        callback(null, true); // Permitir la solicitud
+      } else {
+        callback(new Error('Not allowed by CORS')); // Si el origen no está permitido
+      }
+    },
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  };
+
+  
 app.use(cors(corsOptions));
 
 // Conexión a la base de datos MySQL
