@@ -1,20 +1,26 @@
-require("dotenv").config();
+require("dotenv").config();  // Asegúrate de cargar las variables de entorno desde el archivo .env
 const express = require("express");
 const mysql = require("mysql2");
 const cors = require("cors");
 
 const app = express();
 app.use(express.json());
-app.use(cors());
+
+// Configuración de CORS para permitir solicitudes desde tu frontend en producción
+const corsOptions = {
+    origin: process.env.REACT_APP_API_URL || 'http://localhost:3000',  // Cambia esto por tu URL de frontend en producción
+};
+app.use(cors(corsOptions));
 
 // Conexión a la base de datos MySQL
 const db = mysql.createConnection({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME,
+    host: process.env.DB_HOST,        // El host de la base de datos (puede ser un servicio de base de datos en la nube como Amazon RDS o MySQL en otro servidor)
+    user: process.env.DB_USER,        // El nombre de usuario de tu base de datos
+    password: process.env.DB_PASSWORD, // La contraseña de la base de datos
+    database: process.env.DB_NAME,    // El nombre de la base de datos
 });
 
+// Conexión a la base de datos MySQL
 db.connect((err) => {
     if (err) {
         console.error("Error conectando a MySQL:", err);
@@ -25,7 +31,7 @@ db.connect((err) => {
 
 // Rutas de la API
 
-// Seleccionar usuario
+// Seleccionar usuarios (GET)
 app.get("/user", async (req, res) => {
     try {
         db.query("SELECT * FROM user", (err, results) => {
@@ -33,7 +39,7 @@ app.get("/user", async (req, res) => {
                 console.error("Error al obtener usuarios:", err);
                 return res.status(500).json(err);
             }
-            res.json(results);
+            res.json(results);  // Devuelve los usuarios en formato JSON
         });
     } catch (error) {
         console.error("Error inesperado:", error);
@@ -41,7 +47,7 @@ app.get("/user", async (req, res) => {
     }
 });
 
-// Insertar usuario
+// Insertar usuario (POST)
 app.post("/user", async (req, res) => {
     const { name, email } = req.body;
     try {
@@ -58,7 +64,7 @@ app.post("/user", async (req, res) => {
     }
 });
 
-// Modificar usuario
+// Modificar usuario (PUT)
 app.put("/user/:id", async (req, res) => {
     const { id } = req.params;
     const { name, email } = req.body;
@@ -76,7 +82,7 @@ app.put("/user/:id", async (req, res) => {
     }
 });
 
-// Eliminar usuario
+// Eliminar usuario (DELETE)
 app.delete("/user/:id", async (req, res) => {
     const { id } = req.params;
     try {

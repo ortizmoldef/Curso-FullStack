@@ -13,7 +13,7 @@ function App() {
         axios.get(`${apiUrl}/user`)
             .then((response) => {
                 if (Array.isArray(response.data)) {
-                    setUsers(response.data); // Actualiza solo si es un array
+                    setUsers(response.data); 
                 } else {
                     console.error("La respuesta no es un array", response.data);
                 }
