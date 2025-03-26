@@ -1,11 +1,12 @@
 const mongoose = require('mongoose');
 
 const postSchema = new mongoose.Schema({
-  titulo: { type: String, required: true },
-  contenido: { type: String, required: true },
-  fechaCreacion: { type: Date, default: Date.now },
-  usuario: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-});
+    titulo: { type: String, required: true },
+    contenido: { type: String, required: true },
+    usuario: { type: mongoose.Schema.Types.ObjectId, ref: 'usuarios', required: true },
+}, { timestamps: true });
 
-const Post = mongoose.model('Post', postSchema);
+// Evitar redefinir el modelo si ya existe
+const Post = mongoose.models.Post || mongoose.model('Post', postSchema);
+
 module.exports = Post;
