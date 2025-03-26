@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 
 // Usa la URL desde las variables de entorno
-const apiUrl = process.env.REACT_APP_API_URL 
+const apiUrl = process.env.REACT_APP_API_URL;
 
 function App() {
     const [users, setUsers] = useState([]);
@@ -26,11 +26,17 @@ function App() {
         axios
             .post(`${apiUrl}/user`, { name, email })
             .then((response) => {
-                setUsers([...users, response.data]);
-                setName("");
-                setEmail("");
+                // Aquí es donde integras el código que mencionaste
+                if (response.data.dato && response.data.user) {
+                    console.log(response.data.dato); // Muestra el mensaje "Datos añadidos nuevos"
+                    setUsers([...users, response.data.user]); // Añadir el usuario recién creado
+                    setName(""); // Limpiar el campo de nombre
+                    setEmail(""); // Limpiar el campo de correo
+                } else {
+                    console.error("Respuesta inesperada:", response.data);
+                }
             })
-            .catch((error) => console.error(error));
+            .catch((error) => console.error("Error al agregar usuario:", error));
     };
 
     const handleUpdate = (id, updatedName, updatedEmail) => {
