@@ -5,24 +5,28 @@ const cors = require("cors");
 
 const app = express();
 app.use(express.json());
+const cors = require("cors");
 
+// CORS options para permitir múltiples orígenes
 const corsOptions = {
-    origin: (origin, callback) => {
-      const allowedOrigins = [
-        'http://localhost:3000', // Desarrollo local
-        'https://frontend30-6gpr6qbo2-ortizmoldefs-projects.vercel.app', // Producción
-      ];
-      if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
-        callback(null, true); // Permitir la solicitud
-      } else {
-        callback(new Error('Not allowed by CORS')); // Si el origen no está permitido
-      }
+    origin: function (origin, callback) {
+        // Asegúrate de incluir las URL de tus frontends (desarrollo y producción)
+        const allowedOrigins = [
+            'http://localhost:3000', // Desarrollo local
+            'https://frontend30-6gpr6qbo2-ortizmoldefs-projects.vercel.app', // Producción frontend
+        ];
+        if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+            callback(null, true); // Permite la solicitud
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
     },
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  }; 
+};
 
-   
+// Usar CORS con la configuración anterior
 app.use(cors(corsOptions));
+
 
 // Conexión a la base de datos MySQL
 const db = mysql.createConnection({
