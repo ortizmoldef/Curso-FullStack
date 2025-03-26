@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 
 // Usa la URL desde las variables de entorno
-const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:5000'; // Esto tomará la URL de Vercel o localhost si no está configurada en el entorno
+const apiUrl = process.env.REACT_APP_API_URL 
 
 function App() {
     const [users, setUsers] = useState([]);
