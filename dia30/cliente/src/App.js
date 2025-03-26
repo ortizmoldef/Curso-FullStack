@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 
 // Usa la URL desde las variables de entorno
-const apiUrl = "https://backend30.vercel.app"
+const apiUrl = process.env.REACT_APP_API_URL || 'backend-eta-three-10.vercel.app';  
 
 function App() {
     const [users, setUsers] = useState([]);
@@ -30,18 +30,18 @@ function App() {
         e.preventDefault();
         if (apiUrl) {
             axios
-                .post(`${apiUrl}/user`, { name, email })
-                .then((response) => {
-                    if (response.data.dato && response.data.user) {
-                        console.log(response.data.dato); // Muestra el mensaje
-                        setUsers([...users, response.data.user]); // Añadir el usuario recién creado
-                        setName(""); // Limpiar los campos del formulario
-                        setEmail("");
-                    } else {
-                        console.error("Respuesta inesperada:", response.data);
-                    }
-                })
-                .catch((error) => console.error("Error al agregar usuario:", error));
+            .post(`${apiUrl}/user`, { name, email }) // Usa correctamente el `apiUrl` aquí
+            .then((response) => {
+              if (response.data.dato && response.data.user) {
+                console.log(response.data.dato); // Muestra el mensaje
+                setUsers([...users, response.data.user]); // Añadir el usuario recién creado
+                setName(""); // Limpiar los campos del formulario
+                setEmail("");
+              } else {
+                console.error("Respuesta inesperada:", response.data);
+              }
+            })
+            .catch((error) => console.error("Error al agregar usuario:", error));
         } else {
             console.error("API URL no está definida correctamente en el archivo .env");
         }
