@@ -1,13 +1,16 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 
+// Usa la URL desde las variables de entorno
+const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:5000'; // Esto tomará la URL de Vercel o localhost si no está configurada en el entorno
+
 function App() {
     const [users, setUsers] = useState([]);
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
 
     useEffect(() => {
-        axios.get("http://localhost:5000/user").then((response) => {
+        axios.get(`${apiUrl}/user`).then((response) => {
             setUsers(response.data);
         });
     }, []);
@@ -15,7 +18,7 @@ function App() {
     const handleSubmit = (e) => {
         e.preventDefault();
         axios
-            .post("http://localhost:5000/user", { name, email })
+            .post(`${apiUrl}/user`, { name, email })
             .then((response) => {
                 setUsers([...users, response.data]);
                 setName("");
@@ -26,7 +29,7 @@ function App() {
 
     const handleUpdate = (id, updatedName, updatedEmail) => {
         axios
-            .put(`http://localhost:5000/user/${id}`, { name: updatedName, email: updatedEmail })
+            .put(`${apiUrl}/user/${id}`, { name: updatedName, email: updatedEmail })
             .then(() => {
                 setUsers(users.map(user => user.id === id ? { ...user, name: updatedName, email: updatedEmail } : user));
             })
@@ -35,7 +38,7 @@ function App() {
 
     const handleDelete = (id) => {
         axios
-            .delete(`http://localhost:5000/user/${id}`)
+            .delete(`${apiUrl}/user/${id}`)
             .then(() => {
                 setUsers(users.filter(user => user.id !== id));
             })
