@@ -8,7 +8,8 @@ app.use(express.json());
 
 // Configuración de CORS para permitir solicitudes desde tu frontend en producción
 const corsOptions = {
-    origin: process.env.REACT_APP_API_URL || 'http://localhost:3000',  // Cambia esto por tu URL de frontend en producción
+    origin: process.env.REACT_APP_API_URL,// Cambia esto por tu URL de frontend en producción
+    methods: ["GET", "POST", "PUT", "DELETE"]  
 };
 app.use(cors(corsOptions));
 
@@ -48,20 +49,15 @@ app.get("/user", async (req, res) => {
 });
 
 // Insertar usuario (POST)
-app.post("/user", async (req, res) => {
+app.post("/user", (req, res) => {
     const { name, email } = req.body;
-    try {
-        db.query("INSERT INTO user (name, email) VALUES (?, ?)", [name, email], (err, result) => {
-            if (err) {
-                console.error("Error al insertar usuario:", err);
-                return res.status(500).json(err);
-            }
-            res.json({ id: result.insertId, name, email });
-        });
-    } catch (error) {
-        console.error("Error inesperado:", error);
-        res.status(500).json({ message: "Error inesperado al insertar el usuario" });
-    }
+    db.query("INSERT INTO user (name, email) VALUES (?, ?)", [name, email], (err, result) => {
+        if (err) {
+            console.error("Error al insertar usuario:", err);
+            return res.status(500).json({ message: "Error al agregar usuario", error: err });
+        }
+        res.json({ message: "Usuario agregado", user: { id: result.insertId, name, email } });
+    });
 });
 
 // Modificar usuario (PUT)
