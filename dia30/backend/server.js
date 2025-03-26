@@ -21,7 +21,7 @@ const corsOptions = {
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
   };
 
-  
+   
 app.use(cors(corsOptions));
 
 // Conexión a la base de datos MySQL
