@@ -2,6 +2,9 @@ const Comment = require("../models/comments");
 const Post = require("../models/Post"); // Asegúrate de que esto sea correcto
 const User = require("../models/user"); // Asegúrate de que esto sea correcto
 
+
+// Crear Comentario
+
 exports.crearComentario = async (req, res) => {
     try {
         const { contenido, post } = req.body;
@@ -39,8 +42,7 @@ exports.crearComentario = async (req, res) => {
 };
 
 
-// En controllers/comments.js
-
+// Editar Comentario
 exports.editarComentario = async (req, res) => {
     try {
         const comentarioId = req.params.id;
@@ -71,4 +73,31 @@ exports.editarComentario = async (req, res) => {
         res.status(500).json({ error: 'Error al editar el comentario' });
     }
 };
+
+
+
+exports.eliminarComentario = async (req, res) => {
+    try {
+        console.log("Intentando eliminar comentario con ID:", req.params.id);
+
+        const comentarioId = req.params.id;
+        const comentario = await Comment.findById(comentarioId);
+
+        if (!comentario) {
+            return res.status(404).json({ error: "Comentario no encontrado" });
+        }
+
+        if (comentario.usuario.toString() !== req.user.id) {
+            return res.status(403).json({ error: "No tienes permiso para eliminar este comentario" });
+        }
+
+        await Comment.findByIdAndDelete(comentarioId);
+
+        res.status(200).json({ message: "Comentario eliminado correctamente" });
+    } catch (error) {
+        console.error("Error al eliminar el comentario:", error);
+        res.status(500).json({ error: "Error al eliminar el comentario" });
+    }
+};
+
 
